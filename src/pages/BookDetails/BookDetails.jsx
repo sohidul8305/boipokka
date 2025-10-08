@@ -1,7 +1,9 @@
 import React from 'react';
 import { useLoaderData, useParams } from 'react-router';
 import { addToStoredBD } from '../../Utility/addToDB';
-
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+const MySwal = withReactContent(Swal)
 const BookDetails = () => {
     const { id } = useParams();
     const bookId = parseInt(id);
@@ -16,6 +18,16 @@ const BookDetails = () => {
         // array or collection
         // if book alerady exit the show a alert
         // if book not exit then push in the collection or aray
+
+        MySwal.fire({
+            title: "Good job!",
+            text: "You clicked the button!",
+            icon: "success"
+        })
+
+            .then(() => {
+                return MySwal.fire(<p>Shorthand works too</p>)
+            })
         addToStoredBD(id)
     }
 
