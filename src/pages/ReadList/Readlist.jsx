@@ -7,7 +7,9 @@ import Book from '../Book/Book';
 
 const Readlist = () => {
     const [readList, setReadList] = useState([]);
+    const [sort, setSort] = useState("");
     const data = useLoaderData();
+    console.log(data)
 
     useEffect(() => {
         const storedBookData = getStoredBook();
@@ -17,10 +19,33 @@ const Readlist = () => {
             ConvertedStoredBooks.includes(book.bookId)
         );
         setReadList(myReadList);
-    }, [data]); // ✅ dependency হিসেবে data দাও
+    }, [data]);
+
+    const handleSort = (type) => {
+        setSort(type)
+
+        if (type === "pages") {
+            const sortedByPage = [...readList].sort((a, b) => a.totalPages - b.totalPages);
+            setReadList(sortedByPage);
+            console.log(sortedByPage)
+        }
+
+        if (type === "ratings") {
+            const sortedByrating = [...readList].sort((a, b) => a.rating - b.rating);
+            setReadList(sortedByrating)
+        }
+
+    }
 
     return (
         <div>
+            <details className="dropdown">
+                <summary className="btn m-1">sort by : {sort ? sort : ""}</summary>
+                <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                    <li><a onClick={() => handleSort("pages")}>pages</a></li>
+                    <li><a onClick={() => handleSort("ratings")}>ratings</a></li>
+                </ul>
+            </details>
             <Tabs>
                 <TabList>
                     <Tab>Read Book List</Tab>
